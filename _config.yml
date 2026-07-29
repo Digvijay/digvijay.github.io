@@ -1,0 +1,15 @@
+title: Digvijay
+description: Personal homepage and blog of Digvijay
+url: "https://digvijay.dev"
+
+theme: jekyll-theme-primer
+
+markdown: kramdown
+permalink: /blog/:title/
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"

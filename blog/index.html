@@ -1,0 +1,62 @@
+---
+layout: default
+title: "Blog — Digvijay Chauhan"
+---
+
+<style>
+  h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    color: #fff;
+  }
+  .posts-grid {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .post-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    display: block;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .post-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(56, 189, 248, 0.4);
+  }
+  .post-date {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .post-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+  .post-desc {
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+</style>
+
+<h1>Blog Articles</h1>
+
+<div class="posts-grid">
+  {% for post in site.posts %}
+    <a href="{{ post.url }}" class="post-card">
+      <div class="post-date">{{ post.date | date: "%b %d, %Y" }}</div>
+      <div class="post-title">{{ post.title }}</div>
+      {% if post.description %}
+        <div class="post-desc">{{ post.description }}</div>
+      {% endif %}
+    </a>
+  {% else %}
+    <p style="color: var(--muted);">No articles found yet.</p>
+  {% endfor %}
+</div>

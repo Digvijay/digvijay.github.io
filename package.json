@@ -1,0 +1,11 @@
+{
+  "name": "ghblog",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "copy-cms": "cp node_modules/decap-cms/dist/decap-cms.js admin/decap-cms.js"
+  },
+  "dependencies": {
+    "decap-cms": "^3.1.2"
+  }
+}

@@ -1,0 +1,66 @@
+---
+layout: default
+---
+
+<style>
+  .post-header {
+    margin-bottom: 2.5rem;
+  }
+  .post-date {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .hero-img {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+  }
+  .prose {
+    font-size: 1.1rem;
+    color: #cbd5e1;
+    line-height: 1.8;
+  }
+  .prose h2, .prose h3, .prose h4 {
+    color: #fff;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  .prose p { margin-bottom: 1.5rem; }
+  .prose code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  .prose pre {
+    background: #0f172a;
+    padding: 1.25rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+</style>
+
+<article>
+  <header class="post-header">
+    <div class="post-date">{{ page.date | date: "%B %d, %Y" }}</div>
+    <h1>{{ page.title }}</h1>
+  </header>
+
+  {% if page.image %}
+    <img src="{{ page.image }}" alt="{{ page.title }}" class="hero-img" />
+  {% endif %}
+
+  <div class="prose">
+    {{ content }}
+  </div>
+</article>

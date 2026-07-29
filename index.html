@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digvijay Chauhan — Solution Engineer & Cloud Architect</title>
+  <meta name="description" content="Solution Engineer at Microsoft. Golden Kubestronaut, 65x Microsoft Certified, 5x GitHub Certified. Building cloud-native solutions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    nav a:hover { color: var(--accent); }
+
+    main {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      flex: 1;
+    }
+
+    .hero {
+      margin-bottom: 3rem;
+    }
+    .hero h1 {
+      font-size: 2.75rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -1px;
+      margin-bottom: 0.75rem;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero .subtitle {
+      font-size: 1.25rem;
+      color: #fff;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 750px;
+    }
+
+    .badges-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+    }
+    .badges-container img {
+      height: 28px;
+    }
+
+    .section {
+      margin-bottom: 3.5rem;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 0.5rem;
+    }
+
+    .timeline {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      font-family: monospace;
+      color: #cbd5e1;
+      white-space: pre-wrap;
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .edu-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .edu-table th, .edu-table td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .edu-table th {
+      background: rgba(255, 255, 255, 0.02);
+      color: #fff;
+    }
+
+    footer {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      color: var(--muted);
+      font-size: 0.875rem;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo">digvijay.dev</a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/blog/">Blog</a>
+      <a href="/admin/">Admin (CMS)</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Hey there! I'm Digvijay Chauhan 👋</h1>
+      <div class="subtitle">Developer | Cloud Architect | Golden Kubestronaut ☸️ | 65x Microsoft Certified | 5x GitHub Certified</div>
+      <p>Solution Engineer at <strong>Microsoft</strong> in Stockholm, Sweden. With 20+ years of experience architecting desktop, web, and cloud-native solutions optimized for performance, security, and scale.</p>
+
+      <div class="badges-container">
+        <a href="https://github.com/Digvijay" target="_blank"><img src="https://img.shields.io/badge/GitHub-Digvijay-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Profile"></a>
+        <a href="https://www.cncf.io/training/kubestronaut/?_sft_lf-country=se&_sfm_lf_person_golden=1" target="_blank"><img src="https://img.shields.io/badge/CNCF-Golden_Kubestronaut-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="CNCF Golden Kubestronaut"></a>
+        <a href="https://www.credly.com/users/digvijay-chauhan" target="_blank"><img src="https://img.shields.io/badge/Credly-Certifications-FF6B00?style=for-the-badge&logo=credly&logoColor=white" alt="Credly Profile"></a>
+        <a href="https://www.linkedin.com/in/digvijay" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
+        <a href="mailto:digvijay@digvijay.dev"><img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"></a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">🏅 Certifications & Achievements</h2>
+      <div class="badges-container">
+        <a href="https://www.cncf.io/training/kubestronaut/?_sft_lf-country=se&_sfm_lf_person_golden=1" target="_blank"><img src="https://img.shields.io/badge/Golden_Kubestronaut-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Golden Kubestronaut"></a>
+        <a href="https://www.cncf.io/training/kubestronaut/?_sft_lf-country=se&_sfm_lf_person_golden=1" target="_blank"><img src="https://img.shields.io/badge/CKS-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="CKS"></a>
+        <a href="https://www.cncf.io/training/kubestronaut/?_sft_lf-country=se&_sfm_lf_person_golden=1" target="_blank"><img src="https://img.shields.io/badge/CKA-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="CKA"></a>
+        <a href="https://www.cncf.io/training/kubestronaut/?_sft_lf-country=se&_sfm_lf_person_golden=1" target="_blank"><img src="https://img.shields.io/badge/CKAD-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="CKAD"></a>
+        <a href="https://www.credly.com/users/digvijay-chauhan" target="_blank"><img src="https://img.shields.io/badge/65x_Microsoft_Certified-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white" alt="Microsoft Certified"></a>
+        <a href="https://www.credly.com/users/digvijay-chauhan" target="_blank"><img src="https://img.shields.io/badge/5x_GitHub_Certified-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Certified"></a>
+        <a href="https://www.credly.com/users/digvijay-chauhan" target="_blank"><img src="https://img.shields.io/badge/Terraform_Associate-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" alt="Terraform"></a>
+        <a href="https://www.credly.com/users/digvijay-chauhan" target="_blank"><img src="https://img.shields.io/badge/View_All_on_Credly-FF6B00?style=for-the-badge&logo=credly&logoColor=white" alt="View All on Credly"></a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">💼 Career Journey</h2>
+      <div class="timeline">
+2026 - Present  │ Solution Engineer                                 │ Microsoft, Stockholm
+2022 - 2026     │ Group Manager / Full Stack Dev / Cloud Architect  │ Avanade, Stockholm
+2019 - 2022     │ System Development Engineer                       │ SEB Pension, Stockholm
+2017 - 2019     │ Software Engineer                                 │ H&D Wireless AB, Stockholm
+2016 - 2017     │ Systems Engineer                                  │ Competella AB, Stockholm
+2002 - 2016     │ Various Engineering Roles                         │ 5 other companies
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">🎓 Education</h2>
+      <table class="edu-table">
+        <thead>
+          <tr>
+            <th>Degree</th>
+            <th>Institution</th>
+            <th>Location</th>
+            <th>Year</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>M.Sc. (in progress)</strong> Info & Comm Security</td>
+            <td>KTH Royal Institute of Technology</td>
+            <td>Stockholm, Sweden</td>
+            <td>2005 - Present</td>
+          </tr>
+          <tr>
+            <td><strong>B.E.</strong> Electronics and Communication</td>
+            <td>Netaji Subhash Institute of Technology (NSIT)</td>
+            <td>New Delhi, India</td>
+            <td>1998 - 2002</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <span>© <script>document.write(new Date().getFullYear())</script> Digvijay Chauhan</span>
+    <span>Hosted on GitHub Pages</span>
+  </footer>
+</body>
+</html>
