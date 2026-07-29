@@ -1,13 +1,55 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Manager | digvijay.dev</title>
-  <link href="config.yml" type="text/yaml" rel="cms-config-url" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Digvijay's Blog — Content Manager</title>
 </head>
 <body>
-  <!-- Self-Hosted Decap CMS Bundle (No 3rd party CDN) -->
-  <script src="decap-cms.js"></script>
+  <!-- Decap CMS Core Bundle -->
+  <script src="/admin/decap-cms.js"></script>
+
+  <!-- Register Custom Blog Preview Styling & Component -->
+  <script>
+    // 1. Register external blog preview CSS file
+    CMS.registerPreviewStyle('/admin/cms-preview.css');
+
+    // 2. Register React preview template for Decap CMS
+    const PostPreview = createClass({
+      render: function() {
+        const entry = this.props.entry;
+        const title = entry.getIn(['data', 'title']) || 'Untitled Post';
+        const date = entry.getIn(['data', 'date']);
+        const description = entry.getIn(['data', 'description']);
+        const image = entry.getIn(['data', 'image']);
+        const body = this.props.widgetFor('body');
+        
+        let dateStr = '';
+        if (date) {
+          try {
+            dateStr = new Date(date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+          } catch (e) {
+            dateStr = date.toString();
+          }
+        }
+
+        return h('article', {},
+          h('header', { className: 'post-header' },
+            dateStr ? h('div', { className: 'post-meta' }, '📅 ' + dateStr) : null,
+            h('h1', { className: 'post-title' }, title),
+            description ? h('p', { className: 'post-description' }, description) : null
+          ),
+          image ? h('img', { src: this.props.getAsset(image), className: 'hero-preview-img' }) : null,
+          h('div', { className: 'prose' }, body)
+        );
+      }
+    });
+
+    CMS.registerPreviewTemplate('blog', PostPreview);
+    CMS.registerPreviewTemplate('drafts', PostPreview);
+  </script>
 </body>
 </html>

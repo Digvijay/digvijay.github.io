@@ -5,91 +5,691 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title | default: site.title }}</title>
   <meta name="description" content="{{ page.description | default: site.description }}">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
   <style>
+    /* ─── DESIGN TOKENS ─────────────────────────────── */
     :root {
       --bg: #090d16;
-      --card-bg: rgba(255, 255, 255, 0.04);
-      --card-border: rgba(255, 255, 255, 0.08);
+      --card-bg: rgba(255,255,255,0.04);
+      --card-border: rgba(255,255,255,0.08);
       --text: #e2e8f0;
+      --heading-text: #ffffff;
       --muted: #94a3b8;
       --accent: #38bdf8;
-      --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+      --accent-gradient: linear-gradient(135deg,#38bdf8 0%,#818cf8 100%);
+      --code-bg: #0f172a;
+      --header-bg: rgba(9,13,22,0.92);
+      --table-header-bg: rgba(255,255,255,0.03);
+      --header-h: 56px;
+      --sidebar-w: 300px;
+      --max-w: 1140px;
+      --drawer-bg: #0d1120;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --text: #334155;
+      --heading-text: #0f172a;
+      --muted: #64748b;
+      --accent: #0284c7;
+      --accent-gradient: linear-gradient(135deg,#0284c7 0%,#4f46e5 100%);
+      --code-bg: #f1f5f9;
+      --header-bg: rgba(248,250,252,0.92);
+      --table-header-bg: #f1f5f9;
+      --drawer-bg: #f1f5f9;
+    }
+
+    /* ─── BASE RESET ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.7;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      overflow-x: hidden;
+      max-width: 100vw;
     }
-    header {
-      max-width: 900px;
+
+    /* ─── SMART HEADER ───────────────────────────────── */
+    body > header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--header-h);
+      z-index: 200;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background-color: var(--header-bg);
+      border-bottom: 1px solid var(--card-border);
+      transform: translateY(0);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    body > header.hidden {
+      transform: translateY(-100%);
+    }
+
+    body > header.scrolled {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    }
+
+    .header-inner {
+      max-width: var(--max-w);
       width: 100%;
       margin: 0 auto;
-      padding: 2rem 1.5rem;
+      padding: 0 1.25rem;
+      height: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
+
     .logo {
       font-weight: 800;
-      font-size: 1.25rem;
-      color: #fff;
+      font-size: 1.15rem;
+      color: var(--heading-text);
       text-decoration: none;
       letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-shrink: 0;
     }
+    .logo img {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--card-border);
+    }
+    .logo:hover { color: var(--accent); }
+
+    /* Desktop nav */
+    .nav-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
     nav a {
       color: var(--muted);
       text-decoration: none;
-      margin-left: 1.5rem;
       font-size: 0.95rem;
-      font-weight: 500;
-      transition: color 0.2s ease;
+      font-weight: 600;
+      padding: 0.35rem 0.8rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
     }
-    nav a:hover { color: var(--accent); }
+    nav a:hover {
+      color: var(--heading-text);
+      background: var(--card-bg);
+    }
+
+    .theme-toggle {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 0.35rem 0.8rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Hamburger button — mobile only */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.4rem;
+      color: var(--heading-text);
+      flex-direction: column;
+      gap: 5px;
+      align-items: center;
+      justify-content: center;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: currentColor;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── MOBILE DRAWER ──────────────────────────────── */
+    .drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 300;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .drawer-overlay.open { display: block; opacity: 1; }
+
+    .drawer {
+      position: fixed;
+      top: 0; right: 0;
+      width: min(80vw, 280px);
+      height: 100%;
+      background: var(--drawer-bg);
+      border-left: 1px solid var(--card-border);
+      z-index: 400;
+      padding: 1.5rem;
+      transform: translateX(100%);
+      transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .drawer.open { transform: translateX(0); }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .drawer-close {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1.4rem;
+      line-height: 1;
+      padding: 0.25rem;
+    }
+
+    .drawer-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .drawer-nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 600;
+      padding: 0.7rem 0.75rem;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .drawer-nav a:hover { color: var(--accent); background: var(--card-bg); }
+
+    .drawer-theme-btn {
+      margin-top: auto;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .drawer-theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ─── MAIN LAYOUT ────────────────────────────────── */
     main {
-      max-width: 900px;
+      max-width: var(--max-w);
       width: 100%;
       margin: 0 auto;
-      padding: 2rem 1.5rem 4rem;
+      padding: calc(var(--header-h) + 2.5rem) 1.5rem 5rem;
       flex: 1;
+      overflow-x: hidden;
+      min-width: 0;
     }
+
+    .layout-container {
+      display: grid;
+      grid-template-columns: 1fr var(--sidebar-w);
+      gap: 2.5rem;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .main-content {
+      min-width: 0;
+      overflow-x: hidden;
+    }
+
+    /* ─── SIDEBAR ────────────────────────────────────── */
+    .sidebar {
+      position: sticky;
+      top: calc(var(--header-h) + 1.5rem);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      max-height: calc(100vh - var(--header-h) - 3rem);
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .sidebar::-webkit-scrollbar { display: none; }
+
+    .sidebar-widget {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.25rem;
+    }
+
+    .sidebar-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--heading-text);
+      margin-bottom: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 0.4rem;
+    }
+
+    .author-card { text-align: center; }
+    .author-avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 0.75rem;
+      border: 2px solid var(--accent);
+    }
+    .author-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--heading-text);
+      margin-bottom: 0.2rem;
+    }
+    .author-role {
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.65rem;
+    }
+    .author-bio {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    .author-socials { display: flex; flex-direction: column; gap: 0.4rem; }
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 0.4rem 0.65rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .social-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    .recent-posts-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    .recent-post-item a { text-decoration: none; display: block; }
+    .recent-post-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--heading-text);
+      line-height: 1.3;
+      transition: color 0.2s ease;
+    }
+    .recent-post-item a:hover .recent-post-title { color: var(--accent); }
+    .recent-post-date { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .cloud-tag {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.2rem 0.55rem;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .cloud-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
     footer {
-      max-width: 900px;
+      max-width: var(--max-w);
       width: 100%;
       margin: 0 auto;
       padding: 2rem 1.5rem;
       color: var(--muted);
-      font-size: 0.875rem;
+      font-size: 0.85rem;
       border-top: 1px solid var(--card-border);
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    /* ─── MERMAID ────────────────────────────────────── */
+    .mermaid {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 900px) {
+      .layout-container {
+        grid-template-columns: 1fr;
+      }
+
+      /* On mobile: push sidebar below main content but above footer */
+      .sidebar {
+        position: static;
+        max-height: none;
+        overflow-y: visible;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      /* Make author card full-width on mobile */
+      .sidebar .author-card {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      :root { --header-h: 52px; }
+
+      main {
+        padding: calc(var(--header-h) + 1.5rem) 1rem 4rem;
+      }
+
+      .logo span { display: none; }
+      .logo img { width: 28px; height: 28px; }
+
+      .nav-group { display: none; }
+      .hamburger { display: flex; }
+
+      .sidebar {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      /* Prevent any child from causing horizontal scroll */
+      img, video, iframe, pre, table, figure {
+        max-width: 100%;
+      }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    // Theme management
+    function getPreferredTheme() {
+      const saved = localStorage.getItem('theme');
+      if (saved) return saved;
+      return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      const label = theme === 'light' ? '🌙 Dark' : '☀️ Light';
+      document.querySelectorAll('.theme-toggle, .drawer-theme-btn').forEach(btn => {
+        if (btn) btn.innerHTML = label;
+      });
+      if (window.mermaid) {
+        mermaid.initialize({ 
+          startOnLoad: false, 
+          theme: theme === 'light' ? 'default' : 'dark',
+          securityLevel: 'loose'
+        });
+      }
+    }
+
+    function renderMermaidDiagrams() {
+      if (!window.mermaid) return;
+      // Convert Markdown code blocks ```mermaid into <div class="mermaid">
+      const mermaidCodeBlocks = document.querySelectorAll('pre code.language-mermaid, pre code.highlighter-rouge');
+      mermaidCodeBlocks.forEach(codeBlock => {
+        const text = codeBlock.textContent.trim();
+        if (text.startsWith('graph') || text.startsWith('sequenceDiagram') || text.startsWith('gantt') || text.startsWith('classDiagram') || text.startsWith('stateDiagram') || text.startsWith('erDiagram') || text.startsWith('flowchart')) {
+          const pre = codeBlock.parentElement;
+          const container = document.createElement('div');
+          container.className = 'mermaid';
+          container.style.display = 'flex';
+          container.style.justifyContent = 'center';
+          container.style.margin = '2rem 0';
+          container.textContent = text;
+          pre.replaceWith(container);
+        }
+      });
+
+      mermaid.run({
+        querySelector: '.mermaid'
+      });
+    }
+
+    // Smart auto-hide header
+    let lastScroll = 0;
+    let ticking = false;
+    function handleScroll() {
+      const hdr = document.querySelector('header');
+      const current = window.scrollY;
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (current > lastScroll && current > 80) {
+            hdr.classList.add('hidden');
+          } else {
+            hdr.classList.remove('hidden');
+          }
+          hdr.classList.toggle('scrolled', current > 10);
+          lastScroll = current;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      // Apply theme
+      applyTheme(getPreferredTheme());
+
+      // Render Mermaid diagrams
+      renderMermaidDiagrams();
+
+      // Theme buttons (desktop + drawer)
+      document.querySelectorAll('.theme-toggle, .drawer-theme-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const current = document.documentElement.getAttribute('data-theme') || 'dark';
+          applyTheme(current === 'dark' ? 'light' : 'dark');
+        });
+      });
+
+      // Auto-hide header
+      window.addEventListener('scroll', handleScroll, { passive: true });
+
+      // Hamburger / drawer
+      const hamburger = document.getElementById('hamburger');
+      const overlay = document.getElementById('drawer-overlay');
+      const drawer = document.getElementById('drawer');
+      const closeBtn = document.getElementById('drawer-close');
+
+      function openDrawer() {
+        hamburger.classList.add('open');
+        overlay.classList.add('open');
+        drawer.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeDrawer() {
+        hamburger.classList.remove('open');
+        overlay.classList.remove('open');
+        drawer.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      if (hamburger) hamburger.addEventListener('click', openDrawer);
+      if (overlay) overlay.addEventListener('click', closeDrawer);
+      if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    });
+  </script>
 </head>
 <body>
+  <!-- Smart Header -->
   <header>
-    <a href="/" class="logo">digvijay.dev</a>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/blog/">Blog</a>
-      <a href="/admin/">Admin (CMS)</a>
-    </nav>
+    <div class="header-inner">
+      <a href="/" class="logo">
+        <img src="/images/logo.png" alt="Digvijay's Blog" />
+        <span>Digvijay's Blog</span>
+      </a>
+
+      <!-- Desktop nav -->
+      <div class="nav-group">
+        <nav>
+          <a href="/" {% if page.url == '/' or page.url contains '/blog/' %}class="active"{% endif %}>Blog</a>
+          <a href="/about/" {% if page.url contains '/about/' %}class="active"{% endif %}>About</a>
+        </nav>
+        <button class="theme-toggle" aria-label="Toggle theme">☀️ Light</button>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button id="hamburger" class="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </header>
 
+  <!-- Drawer overlay -->
+  <div id="drawer-overlay" class="drawer-overlay"></div>
+
+  <!-- Mobile slide-in drawer -->
+  <div id="drawer" class="drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <div class="drawer-header">
+      <a href="/" class="logo" style="font-size:1rem;">
+        <img src="/images/logo.png" alt="Logo" />
+        <span>Digvijay's Blog</span>
+      </a>
+      <button id="drawer-close" class="drawer-close" aria-label="Close menu">×</button>
+    </div>
+    <nav class="drawer-nav">
+      <a href="/">✍️ Blog</a>
+      <a href="/about/">👤 About</a>
+    </nav>
+    <button class="drawer-theme-btn">☀️ Light</button>
+  </div>
+
   <main>
-    {{ content }}
+    <div class="layout-container">
+      <div class="main-content">
+        {{ content }}
+      </div>
+
+      <aside class="sidebar">
+        <!-- Author Profile Card -->
+        <div class="sidebar-widget author-card">
+          <img src="/images/logo.png" alt="Digvijay Chauhan" class="author-avatar" />
+          <h3 class="author-name">Digvijay Chauhan</h3>
+          <div class="author-role">Solution Engineer @ Microsoft</div>
+          <p class="author-bio">Solution Engineer at Microsoft in Stockholm, Sweden. 20+ years of experience in cloud-native architecture, security, and systems engineering.</p>
+
+          <div class="author-socials">
+            <a href="https://www.cncf.io/training/kubestronaut/?_sft_lf-country=se&_sfm_lf_person_golden=1" target="_blank" class="social-link">
+              <span>☸️</span> Golden Kubestronaut
+            </a>
+            <a href="https://learn.microsoft.com/en-gb/users/digvijayc/transcript/v260xtrkk6zo4mq" target="_blank" class="social-link">
+              <span>📜</span> MS Learn Transcript
+            </a>
+            <a href="https://www.credly.com/users/digvijay-chauhan" target="_blank" class="social-link">
+              <span>🏅</span> Credly Profile
+            </a>
+            <a href="https://www.linkedin.com/in/digvijay" target="_blank" class="social-link">
+              <span>💼</span> LinkedIn Profile
+            </a>
+            <a href="https://github.com/Digvijay" target="_blank" class="social-link">
+              <span>🐙</span> GitHub (@Digvijay)
+            </a>
+          </div>
+        </div>
+
+        <!-- Recent Articles -->
+        <div class="sidebar-widget">
+          <h4 class="sidebar-title">Recent Articles</h4>
+          <ul class="recent-posts-list">
+            {% for post in site.posts limit:5 %}
+              <li class="recent-post-item">
+                <a href="{{ post.url }}">
+                  <div class="recent-post-title">{{ post.title }}</div>
+                  <div class="recent-post-date">{{ post.date | date: "%b %d, %Y" }}</div>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Tag Cloud -->
+        <div class="sidebar-widget">
+          <h4 class="sidebar-title">Explore Topics</h4>
+          <div class="tag-cloud">
+            {% assign all_tags = site.posts | map: "tags" | flatten | uniq %}
+            {% if all_tags and all_tags.size > 0 %}
+              {% for tag in all_tags %}
+                <a href="/?tag={{ tag | url_encode }}" class="cloud-tag">#{{ tag }}</a>
+              {% endfor %}
+            {% else %}
+              <a href="/?tag=Ghost" class="cloud-tag">#Ghost</a>
+              <a href="/?tag=GitHubPages" class="cloud-tag">#GitHubPages</a>
+              <a href="/?tag=Cloudflare" class="cloud-tag">#Cloudflare</a>
+              <a href="/?tag=Architecture" class="cloud-tag">#Architecture</a>
+            {% endif %}
+          </div>
+        </div>
+      </aside>
+    </div>
   </main>
 
   <footer>
     <span>© {{ 'now' | date: "%Y" }} Digvijay Chauhan</span>
-    <span>Hosted on GitHub Pages</span>
+    <span>Hosted on GitHub Pages · Powered by Jekyll</span>
   </footer>
 </body>
 </html>

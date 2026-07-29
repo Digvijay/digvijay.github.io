@@ -9,17 +9,28 @@ This guide explains how to migrate a self-hosted Ghost blog to **GitHub Pages** 
 - **Landing Homepage**: `https://digvijay.dev/`
 - **Blog Listing**: `https://digvijay.dev/blog/`
 - **Decap CMS Editor**: `https://digvijay.dev/admin/`
+- **Cloudflare OAuth Worker**: `https://decap-oauth-worker.digvijay.workers.dev`
 - **WWW Handling**: `https://www.digvijay.dev/*` automatically redirects to `https://digvijay.dev/*`.
 
 ---
 
-## 2. Cloudflare DNS & Redirect Configuration
+## 2. GitHub OAuth App Settings
+
+1. Go to **GitHub Developer Settings > OAuth Apps > New OAuth App**.
+2. **Application Name**: `Digvijay Blog CMS`
+3. **Homepage URL**: `https://digvijay.dev`
+4. **Authorization Callback URL**: `https://decap-oauth-worker.digvijay.workers.dev/callback`
+5. Copy **Client ID** and generate **Client Secret**.
+
+---
+
+## 3. Cloudflare DNS & Redirect Configuration
 
 ### DNS Records in Cloudflare:
 | Type | Name | Target | Proxy Status |
 | :--- | :--- | :--- | :--- |
-| `CNAME` | `@` | `<github-username>.github.io` | Proxied (Orange Cloud) |
-| `CNAME` | `www` | `<github-username>.github.io` | Proxied (Orange Cloud) |
+| `CNAME` | `@` | `digvijay.github.io` | Proxied (Orange Cloud) |
+| `CNAME` | `www` | `digvijay.github.io` | Proxied (Orange Cloud) |
 
 ### Page Rule / Redirect Rule (WWW -> Non-WWW):
 1. In Cloudflare Dashboard, go to **Rules > Redirect Rules > Create Rule**.
@@ -30,18 +41,19 @@ This guide explains how to migrate a self-hosted Ghost blog to **GitHub Pages** 
 
 ---
 
-## 3. GitHub Pages Settings
+## 4. GitHub Pages Settings
 
 1. Ensure the `CNAME` file in the root of your repo contains:
    ```
    digvijay.dev
    ```
 2. In GitHub Repository **Settings > Pages**:
+   - **Source**: `GitHub Actions`
    - **Custom domain**: `digvijay.dev`
    - **Enforce HTTPS**: Checked ✅
 
 ---
 
-## 4. Decap CMS Setup (`/admin/`)
+## 5. Decap CMS Setup (`/admin/`)
 
-Your visual editor lives at `https://digvijay.dev/admin/`. Logging in triggers GitHub 2FA authentication through your Cloudflare Worker OAuth proxy script (`cloudflare-oauth-worker/`).
+Your visual editor lives at `https://digvijay.dev/admin/`. Logging in triggers GitHub 2FA authentication through your Cloudflare Worker OAuth proxy at `https://decap-oauth-worker.digvijay.workers.dev`.

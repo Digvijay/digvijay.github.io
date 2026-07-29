@@ -7,6 +7,9 @@ theme: jekyll-theme-primer
 markdown: kramdown
 permalink: /blog/:title/
 
+future: true
+show_drafts: false
+
 defaults:
   - scope:
       path: ""

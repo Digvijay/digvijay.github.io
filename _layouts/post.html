@@ -3,64 +3,535 @@ layout: default
 ---
 
 <style>
-  .post-header {
-    margin-bottom: 2.5rem;
+  /* ─── READING PROGRESS BAR ──────────────────────────── */
+  #reading-progress {
+    position: fixed;
+    top: var(--header-h, 56px);
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--accent-gradient);
+    z-index: 199;
+    transition: width 0.1s linear;
+    border-radius: 0 2px 2px 0;
   }
-  .post-date {
-    color: var(--accent);
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+
+  /* ─── POST LAYOUT: narrow centered reading column ───── */
+  .post-wrapper {
+    max-width: 720px;
+    margin: 0 auto;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: block;
   }
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #fff;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-  }
-  .hero-img {
+
+  .post-wrapper article {
+    display: block;
     width: 100%;
-    border-radius: 12px;
+  }
+
+  /* ─── POST HEADER ────────────────────────────────────── */
+  .post-header {
     margin-bottom: 2rem;
+    padding-top: 0.25rem;
   }
-  .prose {
-    font-size: 1.1rem;
-    color: #cbd5e1;
-    line-height: 1.8;
+
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
   }
-  .prose h2, .prose h3, .prose h4 {
-    color: #fff;
-    margin-top: 2rem;
+
+  .meta-sep { color: var(--card-border); }
+
+  .tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.25rem;
+  }
+
+  .tag-pill {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.15rem 0.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .tag-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+  .post-title {
+    font-size: clamp(1.75rem, 5vw, 2.75rem);
+    font-weight: 800;
+    color: var(--heading-text);
+    line-height: 1.2;
+    letter-spacing: -0.75px;
     margin-bottom: 1rem;
   }
-  .prose p { margin-bottom: 1.5rem; }
-  .prose code {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    font-size: 0.9em;
+
+  .post-description {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: var(--muted);
+    line-height: 1.6;
+    margin-top: 0.5rem;
   }
-  .prose pre {
-    background: #0f172a;
-    padding: 1.25rem;
-    border-radius: 8px;
-    overflow-x: auto;
+
+  .hero-img {
+    display: block;
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    max-height: 440px;
+    object-fit: cover;
+    border-radius: 14px;
+    margin: 0 0 2.5rem;
+    border: 1px solid var(--card-border);
+  }
+
+  /* ─── PROSE TYPOGRAPHY ───────────────────────────────── */
+  .prose {
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    color: var(--text);
+    line-height: 1.85;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    min-width: 0;
+  }
+
+  .prose h1, .prose h2, .prose h3, .prose h4 {
+    color: var(--heading-text);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 2.75rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.4px;
+  }
+
+  .prose h2 {
+    font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 0.4rem;
+  }
+
+  .prose h3 { font-size: clamp(1.1rem, 2.5vw, 1.35rem); }
+  .prose p { margin-bottom: 1.5rem; }
+
+  .prose ul, .prose ol {
     margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+  .prose li { margin-bottom: 0.5rem; }
+
+  .prose a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.2s ease;
+  }
+  .prose a:hover { text-decoration-color: var(--accent); }
+
+  .prose blockquote {
+    border-left: 4px solid var(--accent);
+    background: var(--card-bg);
+    padding: 1.25rem 1.5rem;
+    border-radius: 0 10px 10px 0;
+    margin: 2rem 0;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 1.05rem;
+  }
+
+  .prose code {
+    font-family: 'Fira Code', monospace;
+    background: var(--code-bg);
+    color: var(--accent);
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+    font-size: 0.87em;
+    border: 1px solid var(--card-border);
+  }
+
+  .prose pre {
+    background: var(--code-bg);
+    border: 1px solid var(--card-border);
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin: 2rem 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .prose pre code {
+    background: transparent;
+    padding: 0;
+    border: none;
+    color: inherit;
+    font-size: 0.875rem;
+  }
+
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    overflow: hidden;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .prose th, .prose td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--card-border);
+    white-space: nowrap;
+  }
+
+  .prose th {
+    background: var(--table-header-bg);
+    color: var(--heading-text);
+    font-weight: 700;
+  }
+
+  .prose hr {
+    border: none;
+    border-top: 1px solid var(--card-border);
+    margin: 3rem 0;
+  }
+
+  .prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    margin: 1.5rem 0;
+  }
+
+  /* ─── POST NAV ───────────────────────────────────────── */
+  .post-nav {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--card-border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .nav-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 1.1rem 1.25rem;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .nav-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .nav-card .nav-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.35rem;
+  }
+  .nav-card .nav-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--heading-text);
+    line-height: 1.3;
+  }
+  .nav-card.next { text-align: right; }
+
+  @media (max-width: 600px) {
+    .post-nav { grid-template-columns: 1fr; }
+    .hero-img { border-radius: 10px; max-height: 220px; }
+    .prose pre { padding: 0.85rem 1rem; font-size: 0.8rem; }
+    .prose blockquote { padding: 1rem 1.1rem; }
+    .prose table { font-size: 0.85rem; }
+    .post-title { overflow-wrap: break-word; }
+  }
+
+  /* ─── LISTEN TO ARTICLE PLAYER ───────────────────────── */
+  .audio-player-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    margin: 1.5rem 0 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color 0.2s ease;
+  }
+  .audio-player-card:hover {
+    border-color: var(--accent);
+  }
+  .audio-icon-btn {
+    background: var(--accent-gradient);
+    color: #fff;
+    border: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .audio-icon-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35);
+  }
+  .audio-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .audio-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--heading-text);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .audio-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 0.15rem;
+  }
+  .audio-player-card audio {
+    width: 100%;
+    height: 36px;
+    margin-top: 0.4rem;
+    border-radius: 8px;
+  }
+
+  /* ─── DYNAMIC CALENDAR ICON ────────────────────────────── */
+  .date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .dynamic-cal-icon {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 5px;
+    overflow: hidden;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .dynamic-cal-icon .cal-month {
+    background: var(--accent);
+    color: #000;
+    font-size: 0.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    width: 100%;
+    text-align: center;
+    padding: 1px 0;
+  }
+  .dynamic-cal-icon .cal-day {
+    color: var(--heading-text);
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding-top: 1px;
   }
 </style>
 
-<article>
-  <header class="post-header">
-    <div class="post-date">{{ page.date | date: "%B %d, %Y" }}</div>
-    <h1>{{ page.title }}</h1>
-  </header>
+<!-- Reading progress bar -->
+<div id="reading-progress"></div>
 
-  {% if page.image %}
-    <img src="{{ page.image }}" alt="{{ page.title }}" class="hero-img" />
-  {% endif %}
+{% assign words = content | strip_html | number_of_words %}
+{% assign read_time = words | divided_by: 200 | plus: 1 %}
 
-  <div class="prose">
-    {{ content }}
-  </div>
-</article>
+<div class="post-wrapper">
+  <article>
+    {% if page.image and page.image != "" %}
+      <img src="{{ page.image }}" alt="{{ page.title }}" class="hero-img" loading="lazy" />
+    {% endif %}
+
+    <div class="post-header">
+      <div class="post-meta">
+        <span class="date-badge">
+          <span class="dynamic-cal-icon">
+            <span class="cal-month">{{ page.date | date: "%b" }}</span>
+            <span class="cal-day">{{ page.date | date: "%d" }}</span>
+          </span>
+          <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
+        </span>
+        <span class="meta-sep">·</span>
+        <span>⏱️ {{ read_time }} min read</span>
+        {% if page.tags and page.tags.size > 0 %}
+          <span class="meta-sep">·</span>
+          <div class="tags-list">
+            {% for tag in page.tags %}
+              <a href="/?tag={{ tag | url_encode }}" class="tag-pill">#{{ tag }}</a>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <h1 class="post-title">{{ page.title }}</h1>
+
+      {% if page.description %}
+        <p class="post-description">{{ page.description }}</p>
+      {% endif %}
+
+      <!-- Listen to Article Widget -->
+      <div class="audio-player-card" id="listen-widget">
+        {% if page.audio and page.audio != "" %}
+          <!-- Mode A: Explicit Audio Track -->
+          <div class="audio-info" style="width:100%;">
+            <div class="audio-title">🎧 Listen to Article (Audio Track)</div>
+            <audio controls src="{{ page.audio }}" preload="metadata"></audio>
+          </div>
+        {% else %}
+          <!-- Mode B: Native Web Speech Synthesis (TTS) -->
+          <button id="tts-toggle-btn" class="audio-icon-btn" aria-label="Listen to article audio">▶</button>
+          <div class="audio-info">
+            <div class="audio-title">🎧 Listen to Article</div>
+            <div id="tts-status" class="audio-sub">AI Speech Reader · ~{{ read_time }} min listen</div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="prose">
+      {{ content }}
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation">
+      {% if page.previous %}
+        <a href="{{ page.previous.url }}" class="nav-card prev">
+          <span class="nav-label">← Previous</span>
+          <span class="nav-title">{{ page.previous.title }}</span>
+        </a>
+      {% else %}
+        <div></div>
+      {% endif %}
+
+      {% if page.next %}
+        <a href="{{ page.next.url }}" class="nav-card next">
+          <span class="nav-label">Next →</span>
+          <span class="nav-title">{{ page.next.title }}</span>
+        </a>
+      {% endif %}
+    </nav>
+  </article>
+</div>
+
+<script>
+  // Reading progress bar
+  const bar = document.getElementById('reading-progress');
+  const article = document.querySelector('.post-wrapper');
+  if (bar && article) {
+    window.addEventListener('scroll', () => {
+      const rect = article.getBoundingClientRect();
+      const total = article.offsetHeight - window.innerHeight;
+      const scrolled = Math.max(0, -rect.top);
+      const pct = Math.min(100, (scrolled / total) * 100);
+      bar.style.width = pct + '%';
+    }, { passive: true });
+  }
+
+  // Text-to-Speech (TTS) Engine
+  (function() {
+    const btn = document.getElementById('tts-toggle-btn');
+    const status = document.getElementById('tts-status');
+    const prose = document.querySelector('.prose');
+
+    if (!btn || !('speechSynthesis' in window) || !prose) return;
+
+    let utterance = null;
+    let isPlaying = false;
+    let isPaused = false;
+
+    function getArticleText() {
+      // Extract clean text from prose, excluding code blocks for smoother speech
+      const clone = prose.cloneNode(true);
+      clone.querySelectorAll('pre, code, script, style').forEach(el => el.remove());
+      return clone.textContent.replace(/\s+/g, ' ').trim();
+    }
+
+    btn.addEventListener('click', () => {
+      if (isPlaying && !isPaused) {
+        window.speechSynthesis.pause();
+        isPaused = true;
+        btn.textContent = '▶';
+        status.textContent = 'Paused';
+        return;
+      }
+
+      if (isPlaying && isPaused) {
+        window.speechSynthesis.resume();
+        isPaused = false;
+        btn.textContent = '⏸';
+        status.textContent = 'Playing article...';
+        return;
+      }
+
+      // Start new speech synthesis
+      window.speechSynthesis.cancel(); // Stop any ongoing speech
+      const text = getArticleText();
+      utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+
+      // Select preferred English voice if available
+      const voices = window.speechSynthesis.getVoices();
+      const preferredVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Daniel')));
+      if (preferredVoice) utterance.voice = preferredVoice;
+
+      utterance.onstart = () => {
+        isPlaying = true;
+        isPaused = false;
+        btn.textContent = '⏸';
+        status.textContent = 'Playing article...';
+      };
+
+      utterance.onend = () => {
+        isPlaying = false;
+        isPaused = false;
+        btn.textContent = '▶';
+        status.textContent = 'Finished listening';
+      };
+
+      utterance.onerror = () => {
+        isPlaying = false;
+        isPaused = false;
+        btn.textContent = '▶';
+        status.textContent = 'Click to listen';
+      };
+
+      window.speechSynthesis.speak(utterance);
+    });
+
+    // Cleanup speech on page unload/navigate
+    window.addEventListener('beforeunload', () => {
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    });
+  })();
+</script>

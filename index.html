@@ -1,245 +1,225 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digvijay Chauhan — Solution Engineer & Cloud Architect</title>
-  <meta name="description" content="Solution Engineer at Microsoft. Golden Kubestronaut, 65x Microsoft Certified, 5x GitHub Certified. Building cloud-native solutions.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #090d16;
-      --card-bg: rgba(255, 255, 255, 0.04);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --text: #e2e8f0;
-      --muted: #94a3b8;
-      --accent: #38bdf8;
-      --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-    }
+---
+layout: default
+title: "Digvijay's Blog"
+---
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+<style>
+  .blog-header {
+    margin-bottom: 2.5rem;
+  }
+  .blog-header h1 {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 800;
+    color: var(--heading-text);
+    letter-spacing: -0.75px;
+    margin-bottom: 0.5rem;
+  }
+  .blog-header p {
+    color: var(--muted);
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
+  }
 
-    header {
-      max-width: 900px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .logo {
-      font-weight: 800;
-      font-size: 1.25rem;
-      color: #fff;
-      text-decoration: none;
-      letter-spacing: -0.5px;
-    }
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      margin-left: 1.5rem;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: color 0.2s ease;
-    }
-    nav a:hover { color: var(--accent); }
+  .active-filter-bar {
+    display: none;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+  }
+  .filter-label {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .filter-tag-pill {
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.2rem 0.65rem;
+    border-radius: 12px;
+  }
+  .clear-filter-btn {
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-left: auto;
+  }
+  .clear-filter-btn:hover { color: var(--heading-text); }
 
-    main {
-      max-width: 900px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 2rem 1.5rem 4rem;
-      flex: 1;
-    }
+  .posts-grid {
+    display: grid;
+    gap: 1.25rem;
+  }
+  
+  .post-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 1.75rem;
+    border-radius: 14px;
+    text-decoration: none;
+    display: block;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .post-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  .post-card.hidden {
+    display: none;
+  }
+  .post-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .post-title {
+    font-size: clamp(1.15rem, 3vw, 1.35rem);
+    font-weight: 700;
+    color: var(--heading-text);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .post-desc {
+    font-size: 0.98rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .card-tag {
+    font-size: 0.78rem;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    padding: 0.1rem 0.5rem;
+    border-radius: 8px;
+  }
 
-    .hero {
-      margin-bottom: 3rem;
-    }
-    .hero h1 {
-      font-size: 2.75rem;
-      font-weight: 800;
-      line-height: 1.2;
-      letter-spacing: -1px;
-      margin-bottom: 0.75rem;
-      background: var(--accent-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero .subtitle {
-      font-size: 1.25rem;
-      color: #fff;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: 1.1rem;
-      color: var(--muted);
-      max-width: 750px;
-    }
+  .date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .dynamic-cal-icon {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    width: 22px;
+    height: 22px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 5px;
+    overflow: hidden;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .dynamic-cal-icon .cal-month {
+    background: var(--accent);
+    color: #000;
+    font-size: 0.48rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    width: 100%;
+    text-align: center;
+    padding: 1px 0;
+  }
+  .dynamic-cal-icon .cal-day {
+    color: var(--heading-text);
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding-top: 1px;
+  }
 
-    .badges-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin: 1.5rem 0;
-    }
-    .badges-container img {
-      height: 28px;
-    }
+  @media (max-width: 600px) {
+    .post-card { padding: 1.25rem; }
+  }
+</style>
 
-    .section {
-      margin-bottom: 3.5rem;
-    }
-    .section-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 1.25rem;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      border-bottom: 1px solid var(--card-border);
-      padding-bottom: 0.5rem;
-    }
+<div class="blog-header">
+  <h1>Digvijay's Blog</h1>
+  <p>Thoughts and articles on infrastructure, software engineering, and cloud architecture.</p>
+</div>
 
-    .timeline {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      font-family: monospace;
-      color: #cbd5e1;
-      white-space: pre-wrap;
-      font-size: 0.95rem;
-      line-height: 1.8;
-    }
+<div id="active-filter-bar" class="active-filter-bar">
+  <span class="filter-label">Filtering by topic:</span>
+  <span id="filter-tag-pill" class="filter-tag-pill">#tag</span>
+  <span id="clear-filter-btn" class="clear-filter-btn">Show all posts</span>
+</div>
 
-    .edu-table {
-      width: 100%;
-      border-collapse: collapse;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .edu-table th, .edu-table td {
-      padding: 0.85rem 1rem;
-      text-align: left;
-      border-bottom: 1px solid var(--card-border);
-    }
-    .edu-table th {
-      background: rgba(255, 255, 255, 0.02);
-      color: #fff;
-    }
-
-    footer {
-      max-width: 900px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-      color: var(--muted);
-      font-size: 0.875rem;
-      border-top: 1px solid var(--card-border);
-      display: flex;
-      justify-content: space-between;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <a href="/" class="logo">digvijay.dev</a>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/blog/">Blog</a>
-      <a href="/admin/">Admin (CMS)</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero">
-      <h1>Hey there! I'm Digvijay Chauhan 👋</h1>
-      <div class="subtitle">Developer | Cloud Architect | Golden Kubestronaut ☸️ | 65x Microsoft Certified | 5x GitHub Certified</div>
-      <p>Solution Engineer at <strong>Microsoft</strong> in Stockholm, Sweden. With 20+ years of experience architecting desktop, web, and cloud-native solutions optimized for performance, security, and scale.</p>
-
-      <div class="badges-container">
-        <a href="https://github.com/Digvijay" target="_blank"><img src="https://img.shields.io/badge/GitHub-Digvijay-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Profile"></a>
-        <a href="https://www.cncf.io/training/kubestronaut/?_sft_lf-country=se&_sfm_lf_person_golden=1" target="_blank"><img src="https://img.shields.io/badge/CNCF-Golden_Kubestronaut-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="CNCF Golden Kubestronaut"></a>
-        <a href="https://www.credly.com/users/digvijay-chauhan" target="_blank"><img src="https://img.shields.io/badge/Credly-Certifications-FF6B00?style=for-the-badge&logo=credly&logoColor=white" alt="Credly Profile"></a>
-        <a href="https://www.linkedin.com/in/digvijay" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
-        <a href="mailto:digvijay@digvijay.dev"><img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"></a>
+<div class="posts-grid" id="posts-grid">
+  {% for post in site.posts %}
+    {% assign post_words = post.content | strip_html | number_of_words %}
+    {% assign post_read_time = post_words | divided_by: 200 | plus: 1 %}
+    {% assign tag_string = post.tags | join: " " | downcase %}
+    
+    <a href="{{ post.url }}" class="post-card" data-tags="{{ tag_string }}">
+      <div class="post-meta-row">
+        <span class="date-badge">
+          <span class="dynamic-cal-icon">
+            <span class="cal-month">{{ post.date | date: "%b" }}</span>
+            <span class="cal-day">{{ post.date | date: "%d" }}</span>
+          </span>
+          <span>{{ post.date | date: "%b %d, %Y" }}</span>
+        </span>
+        <span>⏱️ {{ post_read_time }} min read</span>
       </div>
-    </section>
+      <div class="post-title">{{ post.title }}</div>
+      {% if post.description %}
+        <div class="post-desc">{{ post.description }}</div>
+      {% endif %}
 
-    <section class="section">
-      <h2 class="section-title">🏅 Certifications & Achievements</h2>
-      <div class="badges-container">
-        <a href="https://www.cncf.io/training/kubestronaut/?_sft_lf-country=se&_sfm_lf_person_golden=1" target="_blank"><img src="https://img.shields.io/badge/Golden_Kubestronaut-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Golden Kubestronaut"></a>
-        <a href="https://www.cncf.io/training/kubestronaut/?_sft_lf-country=se&_sfm_lf_person_golden=1" target="_blank"><img src="https://img.shields.io/badge/CKS-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="CKS"></a>
-        <a href="https://www.cncf.io/training/kubestronaut/?_sft_lf-country=se&_sfm_lf_person_golden=1" target="_blank"><img src="https://img.shields.io/badge/CKA-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="CKA"></a>
-        <a href="https://www.cncf.io/training/kubestronaut/?_sft_lf-country=se&_sfm_lf_person_golden=1" target="_blank"><img src="https://img.shields.io/badge/CKAD-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="CKAD"></a>
-        <a href="https://www.credly.com/users/digvijay-chauhan" target="_blank"><img src="https://img.shields.io/badge/65x_Microsoft_Certified-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white" alt="Microsoft Certified"></a>
-        <a href="https://www.credly.com/users/digvijay-chauhan" target="_blank"><img src="https://img.shields.io/badge/5x_GitHub_Certified-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Certified"></a>
-        <a href="https://www.credly.com/users/digvijay-chauhan" target="_blank"><img src="https://img.shields.io/badge/Terraform_Associate-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" alt="Terraform"></a>
-        <a href="https://www.credly.com/users/digvijay-chauhan" target="_blank"><img src="https://img.shields.io/badge/View_All_on_Credly-FF6B00?style=for-the-badge&logo=credly&logoColor=white" alt="View All on Credly"></a>
-      </div>
-    </section>
+      {% if post.tags and post.tags.size > 0 %}
+        <div class="card-tags">
+          {% for tag in post.tags %}
+            <span class="card-tag">#{{ tag }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </a>
+  {% else %}
+    <p style="color: var(--muted);">No articles found yet.</p>
+  {% endfor %}
+</div>
 
-    <section class="section">
-      <h2 class="section-title">💼 Career Journey</h2>
-      <div class="timeline">
-2026 - Present  │ Solution Engineer                                 │ Microsoft, Stockholm
-2022 - 2026     │ Group Manager / Full Stack Dev / Cloud Architect  │ Avanade, Stockholm
-2019 - 2022     │ System Development Engineer                       │ SEB Pension, Stockholm
-2017 - 2019     │ Software Engineer                                 │ H&D Wireless AB, Stockholm
-2016 - 2017     │ Systems Engineer                                  │ Competella AB, Stockholm
-2002 - 2016     │ Various Engineering Roles                         │ 5 other companies
-      </div>
-    </section>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const params = new URLSearchParams(window.location.search);
+    const tag = params.get('tag');
+    if (tag) {
+      const normalizedTag = tag.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const filterBar = document.getElementById('active-filter-bar');
+      const tagPill = document.getElementById('filter-tag-pill');
+      const clearBtn = document.getElementById('clear-filter-btn');
+      const cards = document.querySelectorAll('.post-card');
 
-    <section class="section">
-      <h2 class="section-title">🎓 Education</h2>
-      <table class="edu-table">
-        <thead>
-          <tr>
-            <th>Degree</th>
-            <th>Institution</th>
-            <th>Location</th>
-            <th>Year</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>M.Sc. (in progress)</strong> Info & Comm Security</td>
-            <td>KTH Royal Institute of Technology</td>
-            <td>Stockholm, Sweden</td>
-            <td>2005 - Present</td>
-          </tr>
-          <tr>
-            <td><strong>B.E.</strong> Electronics and Communication</td>
-            <td>Netaji Subhash Institute of Technology (NSIT)</td>
-            <td>New Delhi, India</td>
-            <td>1998 - 2002</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  </main>
+      filterBar.style.display = 'flex';
+      tagPill.textContent = '#' + tag;
 
-  <footer>
-    <span>© <script>document.write(new Date().getFullYear())</script> Digvijay Chauhan</span>
-    <span>Hosted on GitHub Pages</span>
-  </footer>
-</body>
-</html>
+      cards.forEach(card => {
+        const cardTags = (card.getAttribute('data-tags') || '').replace(/[^a-z0-9\s]/g, '');
+        if (cardTags.includes(normalizedTag)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      clearBtn.addEventListener('click', function() {
+        window.location.href = '/';
+      });
+    }
+  });
+</script>

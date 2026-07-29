@@ -1,8 +1,8 @@
 backend:
   name: github
-  repo: digvijay/ghblog # Replace with your github_username/repo_name
+  repo: Digvijay/digvijay.github.io
   branch: main
-  base_url: https://decap-oauth-worker.YOUR_SUBDOMAIN.workers.dev
+  base_url: https://decap-oauth-worker.digvijay.workers.dev
   auth_endpoint: auth
 
 publish_mode: simple
@@ -12,7 +12,7 @@ public_folder: "/images"
 
 collections:
   - name: "blog"
-    label: "Blog Posts"
+    label: "Published Posts"
     folder: "_posts"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
@@ -22,5 +22,24 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Description", name: "description", widget: "text", required: false }
       - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
       - { label: "Cover Image", name: "image", widget: "image", required: false }
+      - { label: "Audio Track / Podcast (Optional)", name: "audio", widget: "file", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "drafts"
+    label: "Drafts & Work in Progress"
+    folder: "_drafts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    editor:
+      preview: true
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+      - { label: "Cover Image", name: "image", widget: "image", required: false }
+      - { label: "Audio Track / Podcast (Optional)", name: "audio", widget: "file", required: false }
+      - { label: "Draft Flag", name: "draft", widget: "boolean", default: true, required: false }
       - { label: "Body", name: "body", widget: "markdown" }
