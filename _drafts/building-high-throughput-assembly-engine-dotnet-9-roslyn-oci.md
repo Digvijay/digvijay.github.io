@@ -1,10 +1,17 @@
 ---
 layout: post
-title: "Building a High-Throughput Assembly Engine in .NET 9 with Roslyn, OCI Registries, and Wasm Plugins"
-date: 2026-07-31 10:00:00 +0000
-description: "A deep dive into C# 13, Roslyn CSharpSyntaxTree manipulations, OCI Distribution Spec v1 registry integration, and Wasmtime sandboxed plugins."
-tags: [DotNet, Architecture, Csharp, OpenSource, Performance]
-image: "/images/ghost_migration_hero.png"
+title: Building a High-Throughput Assembly Engine in .NET 9 with Roslyn, OCI
+  Registries, and Wasm Plugins
+description: A deep dive into C# 13, Roslyn CSharpSyntaxTree manipulations, OCI
+  Distribution Spec v1 registry integration, and Wasmtime sandboxed plugins.
+date: 2026-08-05T00:05:00.000+02:00
+tags:
+  - DotNet
+  - Architecture
+  - Csharp
+  - OpenSource
+  - Performance
+image: ""
 draft: true
 ---
 
