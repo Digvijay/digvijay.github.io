@@ -1,10 +1,18 @@
 ---
 layout: post
-title: "Why LLM Code Generation is Broken: Moving from Probabilistic Text Streaming to Deterministic AST Assembly"
-date: 2026-07-31 10:00:00 +0000
-description: "Why token-by-token code generation in tools like Lovable and Cursor hits a cost and reliability ceiling—and how deterministic AST assembly with OCI modules changes the game."
-tags: [AI, Architecture, DotNet, Kubernetes, SystemDesign]
-image: "/images/ghost_migration_hero.png"
+title: "Why LLM Code Generation is Broken: Moving from Probabilistic Text
+  Streaming to Deterministic AST Assembly"
+description: Why token-by-token code generation in tools like Lovable and Cursor
+  hits a cost and reliability ceiling—and how deterministic AST assembly with
+  OCI modules changes the game.
+date: 2026-08-05T08:37:00.000+02:00
+tags:
+  - AI
+  - Architecture
+  - DotNet
+  - Kubernetes
+  - SystemDesign
+image: ""
 draft: true
 ---
 
