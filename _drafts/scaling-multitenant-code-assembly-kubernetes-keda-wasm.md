@@ -5,7 +5,7 @@ title: Scaling Multi-Tenant Code Assembly from 0 to 100 on Kubernetes with KEDA,
 description: How to deploy a multi-tenant AI assembly control plane on
   Kubernetes using ASP.NET Core 9, MassTransit, KEDA auto-scalers, and
   in-cluster OCI registries.
-date: 2026-07-31 10:00:00 +0000
+date: 2026-08-11T12:00:00.000+02:00
 tags:
   - Kubernetes
   - KEDA
