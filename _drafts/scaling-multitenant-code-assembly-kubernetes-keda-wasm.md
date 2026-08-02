@@ -1,10 +1,18 @@
 ---
 layout: post
-title: "Scaling Multi-Tenant Code Assembly from 0 to 100 on Kubernetes with KEDA, SignalR, and OCI Vaults"
+title: Scaling Multi-Tenant Code Assembly from 0 to 100 on Kubernetes with KEDA,
+  SignalR, and OCI Vaults
+description: How to deploy a multi-tenant AI assembly control plane on
+  Kubernetes using ASP.NET Core 9, MassTransit, KEDA auto-scalers, and
+  in-cluster OCI registries.
 date: 2026-07-31 10:00:00 +0000
-description: "How to deploy a multi-tenant AI assembly control plane on Kubernetes using ASP.NET Core 9, MassTransit, KEDA auto-scalers, and in-cluster OCI registries."
-tags: [Kubernetes, KEDA, Azure, CloudNative, DevOps]
-image: "/images/ghost_migration_hero.png"
+tags:
+  - Kubernetes
+  - KEDA
+  - Azure
+  - CloudNative
+  - DevOps
+image: ""
 draft: true
 ---
 
