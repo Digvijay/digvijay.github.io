@@ -11,7 +11,7 @@ tags:
   - Cloud
   - Azure
 image: ""
-draft: true
+draft: false
 ---
 
 I recently had the chance to take another beta exam from Microsoft: **AB-650: Administering Microsoft 365 and AI Services**.
