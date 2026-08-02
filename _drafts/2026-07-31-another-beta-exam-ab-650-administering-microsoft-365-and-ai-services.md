@@ -1,10 +1,16 @@
 ---
 layout: post
 title: "Another Beta Exam: AB-650 Administering Microsoft 365 and AI Services"
-date: 2026-07-31 10:00:00 +0000
-description: "My personal thoughts, preparation strategy, and breakdown for the AB-650 beta exam covering Microsoft 365 and AI Services."
-tags: [Microsoft, Certification, AI, Cloud, Azure]
-image: "/images/ghost_migration_hero.png"
+description: My personal thoughts, preparation strategy, and breakdown for the
+  AB-650 beta exam covering Microsoft 365 and AI Services.
+date: 2026-08-05T12:00:00.000+02:00
+tags:
+  - Microsoft
+  - Certification
+  - AI
+  - Cloud
+  - Azure
+image: ""
 draft: true
 ---
 
